@@ -37,10 +37,10 @@ There are a few properties that you can configure:
 * placeholderValues: This are the values that are used when no ``@placeholder`` is provided
 
 #### Example configuration
-```
+```javascript
     const blockDocumentation = require('block-documentation');
 
-    blockDocumeentation.generate({
+    blockDocumentation.generate({
         input: './input/',
         output: './output/',
         jsonFile: 'data.json',
