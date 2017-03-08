@@ -399,8 +399,6 @@ function prepareOutputDirectory()
 		fs.mkdirSync( config.output );
 	}
 
-	console.log( __dirname + '/src/index.html' );
-
 	// Copy the index.html from the src folder to the output folder
 	fs.copySync( __dirname + '/src/index.html', config.output + 'index.html' );
 }
