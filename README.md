@@ -36,6 +36,23 @@ There are a few properties that you can configure:
 * interfaceName: This is the name of the file that contains the Interface the part with {blockId} will be replaced with a CamelCase version of the folder name
 * placeholderValues: This are the values that are used when no ``@placeholder`` is provided
 
+#### Example configuration
+```
+    const blockDocumentation = require('block-documentation');
+
+    blockDocumeentation.generate({
+        input: './input/',
+        output: './output/',
+        jsonFile: 'data.json',
+        interfaceName: 'I{blockId}Options.ts',
+        placeholderValues: {
+            string: 'Lorem ipsum dolor sit amet',
+            boolean: true,
+            number: 1
+        }
+    })
+```
+
 #### Available YUI doc comments
 * ``@placeholder``: This will be used to overwrite the predefined placeholder value
 * ``@ignore``: If this comment is available it will be skipped
