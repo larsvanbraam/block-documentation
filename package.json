@@ -1,6 +1,6 @@
 {
 	"name": "block-documentation",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Module that reads Typescript interfaces and outputs documentation for backend API's",
 	"main": "index.js",
 	"repository": {
