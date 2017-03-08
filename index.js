@@ -57,6 +57,9 @@ var result = {blocks: [], references: [], enums: []};
  */
 function generate( options )
 {
+	// Merge the provided config with the default config
+	Object.assign( config, options );
+
 	// Check for provided input / output
 	if( !config.input.length || !config.output.length )
 	{
@@ -64,9 +67,6 @@ function generate( options )
 
 		return;
 	}
-
-	// Merge the provided config with the default config
-	Object.assign( config, options );
 
 	// Get all the directories
 	const blockDiretories = getDirectories( config.input );
