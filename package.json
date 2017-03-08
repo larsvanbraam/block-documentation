@@ -7,6 +7,9 @@
 		"type": "git",
 		"url": "git+https://github.com/larsvanbraam/block-documentation.git"
 	},
+	"scripts": {
+		"test": "node ./example/index.js"
+	},
 	"keywords": [
 		"Typescript",
 		"Typhen",
@@ -24,5 +27,8 @@
 		"fs-extra": "^2.0.0",
 		"typhen": "^1.0.1",
 		"uppercamelcase": "^1.1.0"
+	},
+	"devDependencies": {
+		"node-http-server": "^6.2.1"
 	}
 }
