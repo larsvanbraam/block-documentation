@@ -1,24 +1,28 @@
 {
 	"name": "block-documentation",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Module that reads Typescript interfaces and outputs documentation for backend API's",
 	"main": "index.js",
-	"scripts": {
-		"test": "npm run test"
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/larsvanbraam/block-documentation.git"
 	},
 	"keywords": [
 		"Typescript",
+		"Typhen",
 		"Interfaces",
 		"Documentation"
 	],
-	"author": "Lars van Braam <lars@mediamonks.com>",
+	"author": "Lars van Braam <larsvanbraam@gmail.com>",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/larsvanbraam/block-documentation/issues"
 	},
-	"homepage": "https://github.com/larsvanbraam/block-documentation#readme"
+	"homepage": "https://github.com/larsvanbraam/block-documentation#readme",
+	"devDependencies": {
+		"camelcase": "^4.0.0",
+		"fs-extra": "^2.0.0",
+		"typhen": "^1.0.1",
+		"uppercamelcase": "^1.1.0"
+	}
 }
