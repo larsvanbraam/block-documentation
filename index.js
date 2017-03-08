@@ -188,8 +188,6 @@ function parseBlock( blockDirectory )
 	// Get the file path
 	const path = blockDirectoryToInterfacePath( blockDirectory );
 
-	console.log( path );
-
 	// Parse the options file with typhen to get all the properties
 	const typhenResult = typhen.parse( path );
 
@@ -332,7 +330,7 @@ function hasReference( name, array )
  */
 function parseObjectReference( name, properties )
 {
-	if( !hasReference( name, output.references ) && Array.isArray( properties ) )
+	if( !hasReference( name, result.references ) && Array.isArray( properties ) )
 	{
 		// Keep track of the parsed properties
 		var parsedProperties = [];
@@ -347,7 +345,7 @@ function parseObjectReference( name, properties )
 			}
 		} );
 
-		output.references.push( {
+		result.references.push( {
 			name: name,
 			properties: parsedProperties
 		} );
@@ -363,7 +361,7 @@ function parseObjectReference( name, properties )
  */
 function parseEnumReference( name, members )
 {
-	if( !hasReference( name, output.enums ) && Array.isArray( members ) )
+	if( !hasReference( name, result.enums ) && Array.isArray( members ) )
 	{
 		// Keep track of the parsed properties
 		var parsedProperties = [];
@@ -381,7 +379,7 @@ function parseEnumReference( name, members )
 			}
 		} );
 
-		output.enums.push( {
+		result.enums.push( {
 			name: name,
 			properties: parsedProperties
 		} );
