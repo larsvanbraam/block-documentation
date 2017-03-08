@@ -1,6 +1,6 @@
 {
 	"name": "block-documentation",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Module that reads Typescript interfaces and outputs documentation for backend API's",
 	"main": "index.js",
 	"repository": {
@@ -19,7 +19,7 @@
 		"url": "https://github.com/larsvanbraam/block-documentation/issues"
 	},
 	"homepage": "https://github.com/larsvanbraam/block-documentation#readme",
-	"devDependencies": {
+	"dependencies": {
 		"camelcase": "^4.0.0",
 		"fs-extra": "^2.0.0",
 		"typhen": "^1.0.1",
