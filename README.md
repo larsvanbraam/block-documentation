@@ -15,13 +15,16 @@ npm run example
 ```
 
 ## Methods
+
 ### generate(options:Object):void
 Fully generate the block documentation include a index.html file to preview the generated output, see the [configuration](#documentation) for the available options
+
 ### generateData(options:object):void
 Only output the data.json file so you can have your own custom template for displaying generated output, see the [configuration](#documentation) for the available options
 
 
 ## Documentation
+
 ### Configuration
 When running the generate method you can pass along an options:
 
@@ -47,6 +50,7 @@ All blocks have an interface which describes the data required for the block to 
 * ``@defaultValue``: If a default value is present you can provide it with this comment
 
 ## Examples
+
 ### Example folder structure
     Root folder
     ├── block-foo
@@ -56,6 +60,7 @@ All blocks have an interface which describes the data required for the block to 
     └── ...
     
 #### Example Interface
+
 ```typescript
 import IImage from "./interface/IImage";
 import Theme from "./enum/Theme";
@@ -87,6 +92,7 @@ export default IBlockDummyOptions
 ```
 
 #### Example configuration
+
 ```javascript
 const blockDocumentation = require('block-documentation');
 
