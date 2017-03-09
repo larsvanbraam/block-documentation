@@ -18,18 +18,6 @@ const typhen = require( 'typhen' );
 
 /**
  * @private
- * @description All supported primary types
- */
-const type = {
-	'ARRAY': 'Array',
-	'OBJECT': 'Object',
-	'STRING': 'string',
-	'NUMBER': 'number',
-	'BOOLEAN': 'boolean'
-};
-
-/**
- * @private
  * @description Default configuration for generating the documentation
  */
 const config = {
@@ -134,31 +122,31 @@ function generateExampleJSON( properties, base )
 		{
 			switch( property.type )
 			{
-				case type.STRING:
+				case 'string':
 				{
 					base[property.name] = property.placeholder || config.placeholderValues.string;
 
 					break;
 				}
-				case type.BOOLEAN:
+				case 'boolean':
 				{
 					base[property.name] = config.placeholderValues.boolean;
 
 					break;
 				}
-				case type.NUMBER:
+				case 'number':
 				{
 					base[property.name] = config.placeholderValues.number;
 
 					break;
 				}
-				case type.OBJECT:
+				case 'Object':
 				{
 					base[property.name] = generateExampleJSON( property.properties, {} );
 
 					break;
 				}
-				case type.ARRAY:
+				case 'Array':
 				{
 					base[property.name] = [];
 					base[property.name].push( generateExampleJSON( property.properties, {} ) );
