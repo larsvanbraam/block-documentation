@@ -26,6 +26,7 @@ const config = {
 	jsonFile: 'data.json',
 	interfaceName: 'I{blockId}Options.ts',
 	exampleBlockIdLabel: 'componentId',
+	silent: false,
 	placeholderValues: {
 		string: 'Lorem ipsum dolor sit amet',
 		boolean: true,
@@ -67,7 +68,12 @@ function generateData( options )
 		const blockId = blockDirectoryToBlockId( blockDirectory );
 		const properties = parseBlock( blockDirectory ).reverse();
 
-		console.log( '[' + Math.round( (index + 1) / blockDiretories.length * 100 ) + '%] Parsing block with id: ' + blockId );
+		if( !config.silent )
+		{
+			const progress = Math.round( (index + 1) / blockDiretories.length * 100 ) + '%';
+
+			console.log( '[' + progress + '] Parsing block with id: ' + blockId );
+		}
 
 		result.blocks.push( {
 			blockId: blockId,
@@ -79,7 +85,10 @@ function generateData( options )
 		} );
 	} );
 
-	console.log( '[Info] All blocks have been parsed, writing to file..' );
+	if( !config.silent )
+	{
+		console.log( '[Info] All blocks have been parsed, writing to file..' );
+	}
 
 	writeOutputFile();
 }
@@ -97,7 +106,10 @@ function generate( options )
 	// Copy the index.html from the src folder to the output folder
 	fs.copySync( __dirname + '/src/index.html', config.output + 'index.html' );
 
-	console.log( '[Success] Copied the index.html file to the output directory' );
+	if( !config.silent )
+	{
+		console.log( '[Success] Copied the index.html file to the output directory' );
+	}
 }
 
 /**
@@ -408,7 +420,10 @@ function writeOutputFile()
 		}
 	);
 
-	console.log( '[Success] Writing to file is done! See: ', config.output + config.jsonFile );
+	if( !config.silent )
+	{
+		console.log( '[Success] Writing to file is done! See: ', config.output + config.jsonFile );
+	}
 }
 
 /**

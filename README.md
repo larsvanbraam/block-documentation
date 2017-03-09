@@ -31,6 +31,7 @@ When running the generate method you can pass along an options:
 	- [*string*] **jsonFile**: The name of the file that contains all the documentation
 	- [*string*] **interfaceName**: The template used to find the interface file {blockId} will be replaced with the folder name
 	- [*string*] **exampleBlockIdLabel**: This is the label that's used for generating the example output
+	- [*string*] **silent**: Run the module without any logs
 	- [*object*] **placeholderValues**: Object containing the values that are used when no ``@placeholder`` is provided
 		- [*string*] **string**: The default placeholder value of a string
 		- [*boolean*] **boolean**: The default placeholder value of a boolean

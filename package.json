@@ -1,37 +1,38 @@
 {
-	"name": "block-documentation",
-	"version": "0.1.1",
-	"description": "Module that reads Typescript interfaces and outputs documentation for backend API's",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/larsvanbraam/block-documentation.git"
-	},
-	"scripts": {
-		"example": "node ./example/index.js",
-		"test": "mocha --reporter spec"
-	},
-	"keywords": [
-		"Typescript",
-		"Typhen",
-		"Interfaces",
-		"Documentation"
-	],
-	"author": "Lars van Braam <larsvanbraam@gmail.com>",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/larsvanbraam/block-documentation/issues"
-	},
-	"homepage": "https://github.com/larsvanbraam/block-documentation#readme",
-	"dependencies": {
-		"camelcase": "^4.0.0",
-		"fs-extra": "^2.0.0",
-		"typhen": "^1.0.1",
-		"uppercamelcase": "^1.1.0"
-	},
-	"devDependencies": {
-		"chai": "^3.5.0",
-		"mocha": "^3.2.0",
-		"node-http-server": "^6.2.1"
-	}
+  "name": "block-documentation",
+  "version": "0.1.2",
+  "description": "Module that reads Typescript interfaces and outputs documentation for backend API's",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larsvanbraam/block-documentation.git"
+  },
+  "scripts": {
+    "example": "node ./example/index.js",
+    "test": "mocha -R list"
+  },
+  "keywords": [
+    "Typescript",
+    "Typhen",
+    "Interfaces",
+    "Documentation"
+  ],
+  "author": "Lars van Braam <larsvanbraam@gmail.com> (https://github.com/larsvanbraam)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/larsvanbraam/block-documentation/issues"
+  },
+  "homepage": "https://github.com/larsvanbraam/block-documentation#readme",
+  "dependencies": {
+    "camelcase": "^4.0.0",
+    "fs-extra": "^2.0.0",
+    "typhen": "^1.0.1",
+    "uppercamelcase": "^1.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "grunt": "^1.0.1",
+    "mocha": "^3.2.0",
+    "node-http-server": "^6.2.1"
+  }
 }
