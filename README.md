@@ -15,10 +15,11 @@ npm run example
 ```
 
 ## Methods
-### generate(options)
-Fully generate the block documentation include a index.html file to preview the generated output
-### generateData(options)
-Only output the data.json file so you can have your own custom template for displaying generated output
+### generate(options:Object):void
+Fully generate the block documentation include a index.html file to preview the generated output, see the [configuration](#documentation) for the available options
+### generateData(options:object):void
+Only output the data.json file so you can have your own custom template for displaying generated output, see the [configuration](#documentation) for the available options
+
 
 ## Documentation
 ### Configuration
