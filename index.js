@@ -42,9 +42,9 @@ let result = {blocks: [], references: [], enums: []};
 
 /**
  * @private
- * @method Generate
+ * @method generateData
  */
-function generate( options )
+function generateData( options )
 {
 	// Merge the provided config with the default config
 	Object.assign( config, options );
@@ -80,19 +80,22 @@ function generate( options )
 
 	console.log( '[Info] All blocks have been parsed, writing to file..' );
 
-	// Prepare the output directory
-	prepareOutputDirectory();
+	writeOutputFile();
+}
 
-	// Write the *.json file
-	fs.outputJsonSync(
-		config.output + config.jsonFile,
-		result,
-		{
-			spaces: 4
-		}
-	);
+/**
+ * @private
+ * @method generate
+ */
+function generate( options )
+{
+	// First generate the data
+	generateData( options );
 
-	console.log( '[Success] Writing to file is done! See: ', config.output + 'data.json' );
+	// Copy the index.html from the src folder to the output folder
+	fs.copySync( __dirname + '/src/index.html', config.output + 'index.html' );
+
+	console.log( '[Success] Copied the index.html file to the output directory' );
 }
 
 /**
@@ -377,10 +380,9 @@ function parseEnumReference( name, members )
 
 /**
  * @private
- * @method prepareOutputDirectory
- * @description Prepare the output directory for writing the json file
+ * @writeOutputFile
  */
-function prepareOutputDirectory()
+function writeOutputFile()
 {
 	// Create the output folder if it's not there
 	if( !fs.existsSync( config.output ) )
@@ -388,8 +390,16 @@ function prepareOutputDirectory()
 		fs.mkdirSync( config.output );
 	}
 
-	// Copy the index.html from the src folder to the output folder
-	fs.copySync( __dirname + '/src/index.html', config.output + 'index.html' );
+	// Write the *.json file
+	fs.outputJsonSync(
+		config.output + config.jsonFile,
+		result,
+		{
+			spaces: 4
+		}
+	);
+
+	console.log( '[Success] Writing to file is done! See: ', config.output + config.jsonFile );
 }
 
 /**
@@ -437,5 +447,6 @@ function blockDirectoryToInterfacePath( blockDirectory )
  * @description Module exports
  */
 module.exports = {
+	generateData: generateData,
 	generate: generate
 };
