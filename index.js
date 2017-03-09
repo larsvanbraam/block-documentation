@@ -43,6 +43,7 @@ let result = {blocks: [], references: [], enums: []};
 /**
  * @private
  * @method generateData
+ * @returns void
  */
 function generateData( options )
 {
@@ -86,6 +87,7 @@ function generateData( options )
 /**
  * @private
  * @method generate
+ * @returns void
  */
 function generate( options )
 {
@@ -101,6 +103,7 @@ function generate( options )
 /**
  * @method generateExampleJSON
  * @description This method recursively generated mock data for the types
+ * @returns {Object}
  */
 function generateExampleJSON( properties, base )
 {
@@ -173,7 +176,7 @@ function generateExampleJSON( properties, base )
  * @private
  * @method parseBlock
  * @param blockDirectory
- * @returns Array
+ * @returns {Array}
  */
 function parseBlock( blockDirectory )
 {
@@ -204,10 +207,10 @@ function parseProperties( properties )
 	}
 
 	// Keep track of the parsed properties
-	var parsedProperties = [];
+	let parsedProperties = [];
 
 	// Parse all the properties
-	properties.forEach( function( property, index )
+	properties.forEach( function( property )
 	{
 		// If the @ignore comment was added we will skip the property
 		if( !getDocComment( property.docComment || [], '@ignore' ) )
@@ -224,6 +227,7 @@ function parseProperties( properties )
  * @private
  * @method parseProperty
  * @description Parse the properties and return the new parsed object
+ * @returns {Object}
  */
 function parseProperty( property )
 {
@@ -304,7 +308,8 @@ function getType( PrimitiveType )
 /**
  * @private
  * @method hasReference
- * @param name
+ * @param {string} name
+ * @param {Array} array
  * @returns {boolean}
  */
 function hasReference( name, array )
@@ -318,7 +323,9 @@ function hasReference( name, array )
 /**
  * @private
  * @method parseReference
- * @param properties
+ * @param {string} name
+ * @param {Object} properties
+ * @returns void
  */
 function parseObjectReference( name, properties )
 {
@@ -350,6 +357,7 @@ function parseObjectReference( name, properties )
  * @description Parse an enum reference
  * @param {string} name
  * @param {Array} members
+ * @returns void
  */
 function parseEnumReference( name, members )
 {
@@ -381,6 +389,7 @@ function parseEnumReference( name, members )
 /**
  * @private
  * @writeOutputFile
+ * @returns void
  */
 function writeOutputFile()
 {
@@ -407,6 +416,7 @@ function writeOutputFile()
  * @method getDirectories
  * @description Get all the folders within a desired folder
  * @param {string} src
+ * @returns {string}
  */
 function getDirectories( src )
 {

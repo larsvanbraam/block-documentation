@@ -1,5 +1,5 @@
-var blockDocumentation = require( '../index.js' );
-var server = require( 'node-http-server' );
+let blockDocumentation = require( '../index.js' );
+let server = require( 'node-http-server' );
 
 // Generate the documentation
 blockDocumentation.generate( {
