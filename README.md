@@ -11,7 +11,7 @@ npm i
 To preview output run the following script
 
 ```
-npm test
+npm run example
 ```
 
 ## Methods

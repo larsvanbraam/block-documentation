@@ -8,7 +8,7 @@
 		"url": "git+https://github.com/larsvanbraam/block-documentation.git"
 	},
 	"scripts": {
-		"test": "node ./example/index.js"
+		"example": "node ./example/index.js"
 	},
 	"keywords": [
 		"Typescript",
