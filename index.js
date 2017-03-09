@@ -25,6 +25,7 @@ const config = {
 	output: '',
 	jsonFile: 'data.json',
 	interfaceName: 'I{blockId}Options.ts',
+	exampleBlockIdLabel: 'componentId',
 	placeholderValues: {
 		string: 'Lorem ipsum dolor sit amet',
 		boolean: true,
@@ -37,7 +38,7 @@ const config = {
  * @description The global result object
  * @type {{blocks: Array, references: Array, enums: Array}}
  */
-var result = {blocks: [], references: [], enums: []};
+let result = {blocks: [], references: [], enums: []};
 
 /**
  * @private
@@ -71,7 +72,7 @@ function generate( options )
 			blockId: blockId,
 			properties: properties,
 			example: JSON.stringify( {
-				id: blockId,
+				[config.exampleBlockIdLabel]: blockId,
 				data: generateExampleJSON( properties, {} )
 			}, null, 4 )
 		} );
@@ -102,7 +103,7 @@ function generateExampleJSON( properties, base )
 {
 	properties.forEach( function( property )
 	{
-		var reference;
+		let reference;
 
 		if( hasReference( property.type, result.references ) )
 		{
@@ -223,7 +224,7 @@ function parseProperties( properties )
  */
 function parseProperty( property )
 {
-	var childProperties = null;
+	let childProperties = null;
 
 	if( property.type.rawName === 'Array' )
 	{
@@ -256,7 +257,7 @@ function getDocComment( docComment, property )
 {
 	if( Array.isArray( docComment ) )
 	{
-		for( var i = 0; i < docComment.length; i++ )
+		for( let i = 0; i < docComment.length; i++ )
 		{
 			if( docComment[i].indexOf( property ) > -1 )
 			{
@@ -321,7 +322,7 @@ function parseObjectReference( name, properties )
 	if( !hasReference( name, result.references ) && Array.isArray( properties ) )
 	{
 		// Keep track of the parsed properties
-		var parsedProperties = [];
+		let parsedProperties = [];
 
 		// Parse all the properties
 		properties.forEach( function( property )
@@ -352,7 +353,7 @@ function parseEnumReference( name, members )
 	if( !hasReference( name, result.enums ) && Array.isArray( members ) )
 	{
 		// Keep track of the parsed properties
-		var parsedProperties = [];
+		let parsedProperties = [];
 
 		// Parse all the properties
 		members.forEach( function( member )
