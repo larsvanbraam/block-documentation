@@ -1,57 +1,39 @@
 # Generate block documentation
-Task to automatically generate documentation for backend development based on [TypeScript](https://www.typescriptlang.org/) interfaces
+This module to automatically generate documentation for backend development based on [TypeScript](https://www.typescriptlang.org/) interfaces. It uses the [Typhen](https://github.com/shiwano/typhen) module to scan the interfaces and then parses it into a re-usable json object 
 
 ## Setup
 Clone the repository and then run:
+
 ```
 npm i
 ```
-
 ## Demo
 To preview output run the following script
+
 ```
 npm test
 ```
 
+## Methods
+### generate(options)
+Fully generate the block documentation include a index.html file to preview the generated output
+### generateData(options)
+Only output the data.json file so you can have your own custom template for displaying generated output
+
 ## Documentation
-This module scans a provided directory filled with block directories, inside each directory it looks for a Interface with all the properties, these properties can be primitive types or references to other interfaces or enums.
-
-### Example folder structure
-    Root folder
-    ├── block-foo
-    │   └── IBlockFooOptions.ts
-    ├── block-bar
-    │   └── IBlockBarOptions.ts
-    └── ...
-
 ### Configuration
-There are a few properties that you can configure:
+When running the generate method you can pass along an options:
 
-#### Required configuration:
-* Input: This is root folder where the task will look for the blocks
-* Output: this is the output path where the documentation will be generated
-
-#### Additional configuration
-* jsonFile: This is the name of the output json file that will contain all the documentation
-* interfaceName: This is the name of the file that contains the Interface the part with {blockId} will be replaced with a CamelCase version of the folder name
-* placeholderValues: This are the values that are used when no ``@placeholder`` is provided
-
-#### Example configuration
-```javascript
-const blockDocumentation = require('block-documentation');
-
-blockDocumentation.generate({
-    input: './input/',
-    output: './output/',
-    jsonFile: 'data.json',
-    interfaceName: 'I{blockId}Options.ts',
-    placeholderValues: {
-        string: 'Lorem ipsum dolor sit amet',
-        boolean: true,
-        number: 1
-    }
-})
-```
+- [required][*object*] **Options** The root options object
+	- [required][*string*] **input**: The root folder where the task will look for blocks
+	- [required][*string*] **output**: The output folder where the documentation will be generated
+	- [*string*] **jsonFile**: The name of the file that contains all the documentation
+	- [*string*] **interfaceName**: The template used to find the interface file {blockId} will be replaced with the folder name
+	- [*string*] **exampleBlockIdLabel**: This is the label that's used for generating the example output
+	- [*object*] **placeholderValues**: Object containing the values that are used when no ``@placeholder`` is provided
+		- [*string*] **string**: The default placeholder value of a string
+		- [*boolean*] **boolean**: The default placeholder value of a boolean
+		- [*number*] **number**: The default placeholder value of a number
 
 ### Creating interfaces
 All blocks have an interface which describes the data required for the block to provide the data used in the documentation you can use a couple of [YUIDoc](http://yui.github.io/yuidoc/) comments
@@ -62,6 +44,15 @@ All blocks have an interface which describes the data required for the block to 
 * ``@description``: This is the description about the property
 * ``@defaultValue``: If a default value is present you can provide it with this comment
 
+## Examples
+### Example folder structure
+    Root folder
+    ├── block-foo
+    │   └── IBlockFooOptions.ts
+    ├── block-bar
+    │   └── IBlockBarOptions.ts
+    └── ...
+    
 #### Example Interface
 ```typescript
 import IImage from "./interface/IImage";
@@ -95,4 +86,21 @@ interface IBlockDummyOptions
 }
 
 export default IBlockDummyOptions
+```
+
+#### Example configuration
+```javascript
+const blockDocumentation = require('block-documentation');
+
+blockDocumentation.generate({
+    input: './input/',
+    output: './output/',
+    jsonFile: 'data.json',
+    interfaceName: 'I{blockId}Options.ts',
+    placeholderValues: {
+        string: 'Lorem ipsum dolor sit amet',
+        boolean: true,
+        number: 1
+    }
+})
 ```
