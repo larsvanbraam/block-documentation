@@ -15,6 +15,7 @@ const path = require( 'path' );
 const upperCamelCase = require( 'uppercamelcase' );
 const camelCase = require( 'camelcase' );
 const typhen = require( 'typhen' );
+const stripExtension = require( 'strip-extension' );
 
 /**
  * @private
@@ -39,7 +40,7 @@ const config = {
  * @description The global result object
  * @type {{blocks: Array, references: Array, enums: Array}}
  */
-let result = {blocks: [], references: [], enums: []};
+let result;
 
 /**
  * @private
@@ -48,33 +49,68 @@ let result = {blocks: [], references: [], enums: []};
  */
 function generateData( options )
 {
+	// Empty the result
+	result = {blocks: [], references: [], enums: [], files: []};
+
 	// Merge the provided config with the default config
 	Object.assign( config, options );
 
+	const inputDirectoryPath = getInputDirectoryPath();
+
 	// Check for provided input / output
-	if( !config.input.length || !config.output.length )
+	if( (!inputDirectoryPath && !config.input.files) || !config.output.length )
 	{
 		console.error( 'Please provide an input and an output path' );
 
 		return;
 	}
 
+	if( inputDirectoryPath )
+	{
+		// Parse the input directory path
+		parseInputDirectoryPath( inputDirectoryPath )
+	}
+
+	// Parse the other files
+	if( typeof config.input === 'object' )
+	{
+		parseInputFiles( config.input.files )
+	}
+
+	if( !config.silent )
+	{
+		console.log( '[Info] All blocks have been parsed, writing to file..' );
+	}
+
+	writeOutputFile();
+}
+
+/**
+ * @private
+ * @method parseInputDirectoryPath
+ * @param inputDirectoryPath
+ */
+function parseInputDirectoryPath( inputDirectoryPath )
+{
 	// Get all the directories
-	const blockDiretories = getDirectories( config.input );
+	const blockDirectories = getDirectories( inputDirectoryPath );
 
 	// Loop through all the blocks
-	blockDiretories.forEach( function( blockDirectory, index )
+	blockDirectories.forEach( function( blockDirectory, index )
 	{
 		const blockId = blockDirectoryToBlockId( blockDirectory );
-		const properties = parseBlock( blockDirectory ).reverse();
+		const interfacePath = blockDirectoryToInterfacePath( blockDirectory );
+		const properties = parseBlock( interfacePath ).reverse();
 
+		// Log the progress
 		if( !config.silent )
 		{
-			const progress = Math.round( (index + 1) / blockDiretories.length * 100 ) + '%';
+			const progress = Math.round( (index + 1) / blockDirectories.length * 100 ) + '%';
 
 			console.log( '[' + progress + '] Parsing block with id: ' + blockId );
 		}
 
+		// Store the result
 		result.blocks.push( {
 			blockId: blockId,
 			properties: properties,
@@ -84,13 +120,48 @@ function generateData( options )
 			}, null, 4 )
 		} );
 	} );
+}
 
-	if( !config.silent )
+/**
+ * @private
+ * @method parseInputFiles
+ * @param inputFiles
+ */
+function parseInputFiles( inputFiles )
+{
+	var files = [];
+
+	// Only one file has been defined
+	if( typeof inputFiles === 'string' )
 	{
-		console.log( '[Info] All blocks have been parsed, writing to file..' );
+		files.push( inputFiles );
+	}
+	// Multiple files have been defined
+	else if( Array.isArray( inputFiles ) )
+	{
+		files = files.concat( inputFiles );
 	}
 
-	writeOutputFile();
+	files.forEach( function( file, index )
+	{
+		const properties = parseBlock( file ).reverse();
+		const fileName = stripExtension( file.split( '/' ).pop() );
+
+		// Log the progress
+		if( !config.silent )
+		{
+			const progress = Math.round( (index + 1) / files.length * 100 ) + '%';
+
+			console.log( '[' + progress + '] Parsing file with name: ' + fileName );
+		}
+
+		// Store the result
+		result.files.push( {
+			name: fileName,
+			properties: properties,
+			example: JSON.stringify( generateExampleJSON( properties, {} ), null, 4 )
+		} );
+	} )
 }
 
 /**
@@ -187,14 +258,11 @@ function generateExampleJSON( properties, base )
 /**
  * @private
  * @method parseBlock
- * @param blockDirectory
+ * @param path
  * @returns {Array}
  */
-function parseBlock( blockDirectory )
+function parseBlock( path )
 {
-	// Get the file path
-	const path = blockDirectoryToInterfacePath( blockDirectory );
-
 	// Parse the options file with typhen to get all the properties
 	const typhenResult = typhen.parse( path );
 
@@ -464,7 +532,17 @@ function blockDirectoryToInterfacePath( blockDirectory )
 	// Parse the configured with the correct blockId
 	const fileName = config.interfaceName.replace( '{blockId}', upperCamelCase( blockDirectory ) );
 
-	return config.input + blockDirectory + '/' + fileName;
+	return getInputDirectoryPath() + blockDirectory + '/' + fileName;
+}
+
+/**
+ * @private
+ * @method getInputDirectoryPath
+ * @returns {string}
+ */
+function getInputDirectoryPath()
+{
+	return typeof config.input === 'object' ? config.input.folder : config.input;
 }
 
 /**

@@ -65,5 +65,21 @@
             ]
         }
     ],
-    "files": []
+    "files": [
+        {
+            "name": "IDummyFile",
+            "properties": [
+                {
+                    "name": "foo",
+                    "type": "string",
+                    "required": true,
+                    "defaultValue": "null",
+                    "description": "Random foo value property",
+                    "placeholder": "",
+                    "properties": []
+                }
+            ],
+            "example": "{\n    \"foo\": \"Lorem ipsum dolor sit amet\"\n}"
+        }
+    ]
 }

@@ -34,23 +34,27 @@
 	<div class="col-md-3 hidden-xs hidden-sm">
 		<h2>Documentation</h2>
 		<!-- ko foreach: Object.keys($data) -->
-			<div class="list-group">
-				<span class="list-group-item">
-					<span class="badge" data-bind="text: $parent[$data]().length"></span>
-					<span class="list-group-item-heading">
-					    <h4 class="list-group-item-heading" data-bind="html: $data"></h4>
+			<!-- ko if: $parent[$data]().length -->
+				<div class="list-group">
+					<span class="list-group-item">
+						<span class="badge" data-bind="text: $parent[$data]().length"></span>
+						<span class="list-group-item-heading">
+						    <h4 class="list-group-item-heading" data-bind="html: $data"></h4>
+						</span>
 					</span>
-				</span>
-				<!-- ko foreach: $parent[$data] -->
-					<a href="#" class="list-group-item" data-bind="attr: {href: '#' + ($data.blockId || $data.name)}, html: $data.blockId || $data.name"></a>
-				<!-- /ko -->
-			</div>
+					<!-- ko foreach: $parent[$data] -->
+						<a href="#" class="list-group-item" data-bind="attr: {href: '#' + ($data.blockId || $data.name)}, html: $data.blockId || $data.name"></a>
+					<!-- /ko -->
+				</div>
+			<!-- /ko -->
 		<!-- /ko -->
 	</div>
 
 	<div class="col-md-9">
 		<div class="starter-template">
 			<h2 id="blocks">Blocks</h2>
+
+			<!-- ko if: blocks().length -->
 			<div class="blocks" data-bind="foreach: blocks">
 				<div class="panel panel-default" data-bind="attr: {'id': $data.blockId}">
 					<div class="panel-heading">
@@ -65,7 +69,9 @@
 					</div>
 				</div>
 			</div>
+			<!-- /ko -->
 
+			<!-- ko if: references().length -->
 			<h2 id="references">References</h2>
 			<div class="blocks" data-bind="foreach: references">
 				<div class="panel panel-default" data-bind="attr: {'id': $data.name}">
@@ -77,7 +83,9 @@
 					</div>
 				</div>
 			</div>
+			<!-- /ko -->
 
+			<!-- ko if: enums().length -->
 			<h2 id="enums">Enums</h2>
 			<div class="blocks" data-bind="foreach: enums">
 				<div class="panel panel-default" data-bind="attr: {'id': $data.name}">
@@ -89,6 +97,25 @@
 					</div>
 				</div>
 			</div>
+			<!-- /ko -->
+
+			<!-- ko if: files().length -->
+			<h2 id="files">Files</h2>
+			<div class="blocks" data-bind="foreach: files">
+				<div class="panel panel-default" data-bind="attr: {'id': $data.name}">
+					<div class="panel-heading">
+						<h3 class="panel-title" data-bind="html: $data.name"></h3>
+					</div>
+					<div class="panel-body table-responsive">
+						<!-- ko template: {name: 'table', data: $data.properties} --><!--/ko -->
+					</div>
+					<div class="panel-body panel-responsive">
+						<h5>Example JSON</h5>
+						<pre><code class="json-example" data-bind="html: $data.example"></code></pre>
+					</div>
+				</div>
+			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 
@@ -166,6 +193,7 @@
 			this.blocks = ko.observableArray( data.blocks );
 			this.references = ko.observableArray( data.references );
 			this.enums = ko.observableArray( data.enums );
+			this.files = ko.observableArray( data.files );
 		};
 
 		// Create the request

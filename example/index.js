@@ -3,7 +3,12 @@ let server = require( 'node-http-server' );
 
 // Generate the documentation
 blockDocumentation.generate( {
-	input: './example/input/',
+	input: {
+		folder: './example/input/blocks/',
+		files: [
+			'./example/input/IDummyFile.ts'
+		]
+	},
 	output: './example/output/'
 } );
 

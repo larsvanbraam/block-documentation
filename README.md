@@ -29,7 +29,7 @@ Only output the data.json file so you can have your own custom template for disp
 When running the generate method you can pass along an options:
 
 - [required][*object*] **Options** The root options object
-	- [required][*string*] **input**: The root folder where the task will look for blocks
+	- [required][*string|object*] **input**: The root folder where the task will look for blocks/files
 	- [required][*string*] **output**: The output folder where the documentation will be generated
 	- [*string*] **jsonFile**: The name of the file that contains all the documentation
 	- [*string*] **interfaceName**: The template used to find the interface file {blockId} will be replaced with the folder name
@@ -39,6 +39,44 @@ When running the generate method you can pass along an options:
 		- [*string*] **string**: The default placeholder value of a string
 		- [*boolean*] **boolean**: The default placeholder value of a boolean
 		- [*number*] **number**: The default placeholder value of a number
+
+#### Input configuration
+The input can be defined in a `string` or an `object`. If you want to skip the folder input completely you can just define some files that will be scaffolded.
+
+**Direct path to folder**
+
+```javascript
+{
+	input: './input/'
+}
+```
+
+**Direct path to folder with extra files**
+
+```javascript
+{
+	input: {
+		folder: './input/',
+		files: [
+			'./foo/IFooFile.ts',
+			'./bar/IBarFile.ts',
+		]
+	}
+}
+```
+
+**Only files defined**
+
+```javascript
+{
+	input: {
+		files: [
+			'./foo/IFooFile.ts',
+			'./bar/IBarFile.ts',
+		]
+	}
+}
+```
 
 ### Creating interfaces
 All blocks have an interface which describes the data required for the block to provide the data used in the documentation you can use a couple of [YUIDoc](http://yui.github.io/yuidoc/) comments
@@ -97,7 +135,12 @@ export default IBlockDummyOptions
 const blockDocumentation = require('block-documentation');
 
 blockDocumentation.generate({
-    input: './input/',
+    input: {
+    	folder: './input/',
+    	files: [
+    		'./path/to/file.ts'
+    	]
+    },
     output: './output/',
     jsonFile: 'data.json',
     interfaceName: 'I{blockId}Options.ts',
