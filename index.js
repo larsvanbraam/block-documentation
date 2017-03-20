@@ -266,9 +266,12 @@ function parseBlock( path )
 	// Parse the options file with typhen to get all the properties
 	const typhenResult = typhen.parse( path );
 
-	// TODO: It kinda messes up when you reference to a interface in an array!
-	const typenTypes = typhenResult.types[0];
-	const properties = typenTypes.properties || typenTypes.type.properties;
+	// Find the correct exported module for the file
+	const typhenTypes = typhenResult.types.find(function(type, index){
+		return type.rawName == path.split('/').pop().split('.').shift();
+	});
+
+	const properties = typhenTypes.properties || typhenTypes.type.properties;
 
 	return parseProperties( properties );
 }
