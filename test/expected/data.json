@@ -1,8 +1,17 @@
 {
     "blocks": [
         {
-            "blockId": "dummy",
+            "name": "dummy",
             "properties": [
+                {
+                    "name": "definedString",
+                    "type": "definedString",
+                    "required": true,
+                    "defaultValue": "null",
+                    "description": "A forced string value",
+                    "placeholder": "",
+                    "properties": []
+                },
                 {
                     "name": "theme",
                     "type": "Theme",
@@ -31,7 +40,7 @@
                     "properties": []
                 }
             ],
-            "example": "{\n    \"componentId\": \"dummy\",\n    \"data\": {\n        \"theme\": 0,\n        \"image\": {\n            \"url\": \"path/to/image.jpg\"\n        },\n        \"header\": \"This is a defined placeholder value\"\n    }\n}"
+            "example": "{\n    \"componentId\": \"dummy\",\n    \"data\": {\n        \"definedString\": \"stringValue1\",\n        \"theme\": 0,\n        \"image\": {\n            \"url\": \"path/to/image.jpg\"\n        },\n        \"header\": \"This is a defined placeholder value\"\n    }\n}"
         }
     ],
     "references": [
@@ -61,6 +70,21 @@
                 {
                     "name": "DARK",
                     "value": 1
+                }
+            ]
+        }
+    ],
+    "stringLiterals": [
+        {
+            "name": "definedString",
+            "properties": [
+                {
+                    "name": "stringValue1",
+                    "value": "stringValue1"
+                },
+                {
+                    "name": "stringValue2",
+                    "value": "stringValue2"
                 }
             ]
         }

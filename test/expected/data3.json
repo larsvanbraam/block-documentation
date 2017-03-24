@@ -2,6 +2,7 @@
 	"blocks": [],
 	"references": [],
 	"enums": [],
+	"stringLiterals": [],
 	"files": [
 		{
 			"name": "IDummyFile",

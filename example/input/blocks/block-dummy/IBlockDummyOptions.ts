@@ -7,21 +7,26 @@ interface IBlockDummyOptions
 	 * @ignore
 	 * @description This is the Id of the interface that will be ignored by the generate task
 	 */
-	id:string;
+	id: string;
 	/**
 	 * @description The heading displayed
 	 * @defaultValue Define the default value of the property if required
 	 * @placeholder This is a defined placeholder value
 	 */
-	header:string;
+	header: string;
 	/**
 	 * @description The image is referenced to another interface
 	 */
-	image:IImage
+	image: IImage;
 	/**
 	 * @description The theme is referenced to an external Enum
 	 */
-	theme?:Theme
+	theme?: Theme;
+	/**
+	 * @description A forced string value
+	 * @rawName definedString
+	 */
+	definedString: "stringValue1" | "stringValue2";
 }
 
 export default IBlockDummyOptions

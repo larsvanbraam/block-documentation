@@ -50,7 +50,7 @@ let result;
 function generateData( options )
 {
 	// Empty the result
-	result = {blocks: [], references: [], enums: [], files: []};
+	result = {blocks: [], references: [], enums: [], stringLiterals:[], files: []};
 
 	// Merge the provided config with the default config
 	Object.assign( config, options );
@@ -112,7 +112,7 @@ function parseInputDirectoryPath( inputDirectoryPath )
 
 		// Store the result
 		result.blocks.push( {
-			blockId: blockId,
+			name: blockId,
 			properties: properties,
 			example: JSON.stringify( {
 				[config.exampleBlockIdLabel]: blockId,
@@ -208,6 +208,13 @@ function generateExampleJSON( properties, base )
 			// If we found a reference Enum, we always choose the first option as default
 			base[property.name] = reference.properties[0].value;
 		}
+		else if( hasReference( property.type, result.stringLiterals ) )
+		{
+			reference = hasReference( property.type, result.stringLiterals );
+
+			// If we found a reference Enum, we always choose the first option as default
+			base[property.name] = reference.properties[0].value;
+		}
 		else
 		{
 			switch( property.type )
@@ -267,9 +274,10 @@ function parseBlock( path )
 	const typhenResult = typhen.parse( path );
 
 	// Find the correct exported module for the file
-	const typhenTypes = typhenResult.types.find(function(type, index){
-		return type.rawName == path.split('/').pop().split('.').shift();
-	});
+	const typhenTypes = typhenResult.types.find( function( type, index )
+	{
+		return type.rawName == path.split( '/' ).pop().split( '.' ).shift();
+	} );
 
 	const properties = typhenTypes.properties || typhenTypes.type.properties;
 
@@ -320,14 +328,15 @@ function parseProperty( property )
 	{
 		childProperties = property.type.type.properties;
 	}
-	else if( property.type.rawName === '' ) // If the rawName == '' the interface was an object, it's super werid!
+	else if( property.type.rawName === '' && property.type.properties ) // If the rawName == '' the interface was an object, it's super werid!
 	{
 		childProperties = property.type.properties;
 	}
 
+
 	return {
 		name: property.rawName,
-		type: getType( property.type ),
+		type: getType( property.type, getDocComment(property.docComment, '@rawName') ),
 		required: !property.isOptional,
 		defaultValue: getDocComment( property.docComment, '@defaultValue' ) || 'null',
 		description: getDocComment( property.docComment, '@description' ),
@@ -364,9 +373,10 @@ function getDocComment( docComment, property )
  * @private
  * @method getType
  * @param PrimitiveType
+ * @param rawName
  * @description Get type from the type object
  */
-function getType( PrimitiveType )
+function getType( PrimitiveType, rawName )
 {
 	if( PrimitiveType.properties && PrimitiveType.rawName.indexOf( 'I' ) === 0 )
 	{
@@ -375,6 +385,12 @@ function getType( PrimitiveType )
 	else if( PrimitiveType.members )
 	{
 		parseEnumReference( PrimitiveType.rawName, PrimitiveType.members );
+	}
+	else if(PrimitiveType.types)
+	{
+		PrimitiveType.rawName = rawName
+
+		parseStringLiteralReference(rawName, PrimitiveType.types);
 	}
 
 	// No name means it's a custom Object
@@ -463,6 +479,44 @@ function parseEnumReference( name, members )
 		} );
 
 		result.enums.push( {
+			name: name,
+			properties: parsedProperties
+		} );
+	}
+}
+
+/**
+ * @private
+ * @method parseStringLiteralReference
+ * @description Parse a string literal reference
+ * @param {string} name
+ * @param {Array} stringLiterals
+ * @returns void
+ */
+function parseStringLiteralReference( name, stringLiterals )
+{
+	if( !hasReference( name, result.stringLiterals ) && Array.isArray( stringLiterals ) )
+	{
+		// Keep track of the parsed properties
+		let parsedProperties = [];
+
+		// Parse all the properties
+		stringLiterals.forEach( function( stringLiteral )
+		{
+			// If the @ignore comment was added we will skip the property
+			if( !getDocComment( stringLiteral.docComment || [], '@ignore' ) )
+			{
+				// Strip out the " characters
+				const text = stringLiteral.text.replace(/"/g, "");
+
+				parsedProperties.push( {
+					name: text,
+					value: text
+				} );
+			}
+		} );
+
+		result.stringLiterals.push( {
 			name: name,
 			properties: parsedProperties
 		} );

@@ -86,6 +86,7 @@ All blocks have an interface which describes the data required for the block to 
 * ``@ignore``: If this comment is available it will be skipped
 * ``@description``: This is the description about the property
 * ``@defaultValue``: If a default value is present you can provide it with this comment
+* ``@rawName``: When you use a stringLiteral to type a property you need to define the raw name of the property (see the [example interface](#example-interface))
 
 ## Examples
 
@@ -124,6 +125,11 @@ interface IBlockDummyOptions
 	 * @description The theme is referenced to an external Enum
 	 */
 	theme?:Theme
+	/**
+	 * @description A forced string value
+	 * @rawName definedString
+	 */
+	definedString: "stringValue1" | "stringValue2";
 }
 
 export default IBlockDummyOptions
